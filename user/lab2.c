@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
         }
     }
     sleep(sleep_ticks);
-    // sched_statistics();
+    sched_statistics();
     for (int i = 0; i < n_proc; i++) kill(proc_pid[i]);
     exit(0);
 }

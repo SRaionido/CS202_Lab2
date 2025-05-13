@@ -40,3 +40,4 @@ entry("uptime");
 entry("hello");
 # Lab 2 syscalls
 entry("sched_tickets");
+entry("sched_statistics");

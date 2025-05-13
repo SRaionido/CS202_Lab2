@@ -124,6 +124,9 @@ allocproc(void)
 found:
   p->pid = allocpid();
   p->state = USED;
+  p->tickets = 10000; // default tickets Lab 2
+  // p->pass = 0;
+  p->ticks = 0;
 
   // Allocate a trapframe page.
   if((p->trapframe = (struct trapframe *)kalloc()) == 0){
@@ -458,6 +461,7 @@ scheduler(void)
         // Switch to chosen process.  It is the process's job
         // to release its lock and then reacquire it
         // before jumping back to us.
+        p->ticks++; // Lab 2
         p->state = RUNNING;
         c->proc = p;
         swtch(&c->context, &p->context);
@@ -695,5 +699,16 @@ void sched_tickets(int tickets)
     p->tickets = tickets;
   } else {
     printf("Invalid number of tickets\n");
+  }
+}
+
+void sched_statistics(void)
+{
+  struct proc *p;
+  for(p = proc; p < &proc[NPROC]; p++) {
+    if(p->state != UNUSED){
+      printf("%d(%s): tickets: %d, ticks: %d\n",
+             p->pid, p->name, p->tickets, p->ticks);
+    }
   }
 }

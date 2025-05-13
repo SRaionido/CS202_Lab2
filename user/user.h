@@ -41,3 +41,4 @@ int memcmp(const void *, const void *, uint);
 void *memcpy(void *, const void *, uint);
 int hello(int); //hello
 int sched_tickets(int); //sched_tickets Lab 2
+int sched_statistics(void); //sched_statistics Lab 2

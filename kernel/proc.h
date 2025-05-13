@@ -108,4 +108,5 @@ struct proc {
   // Lab 2
   int tickets;                // Number of tickets for the process
   int pass;
+  int ticks;
 };

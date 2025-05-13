@@ -108,6 +108,7 @@ int             either_copyin(void *dst, int user_src, uint64 src, uint64 len);
 void            procdump(void);
 void            print_hello(int); //hello
 void            sched_tickets(int); //sched_tickets Lab 2
+void            sched_statistics(void); //sched_statistics Lab 2
 
 // swtch.S
 void            swtch(struct context*, struct context*);

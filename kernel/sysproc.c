@@ -105,3 +105,9 @@ uint64 sys_sched_tickets(void) //sched_tickets Lab 2
   sched_tickets(n);
   return 0;
 }
+
+uint64 sys_sched_statistics(void) //sched_statistics Lab 2
+{
+  sched_statistics();
+  return 0;
+}

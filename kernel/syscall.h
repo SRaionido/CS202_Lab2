@@ -22,3 +22,4 @@
 #define SYS_close  21
 #define SYS_hello  22 //hello
 #define SYS_sched_tickets 23 //sched_tickets Lab 2
+#define SYS_sched_statistics 24 //sched_statistics Lab 2
