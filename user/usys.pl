@@ -38,3 +38,5 @@ entry("sleep");
 entry("uptime");
 # hello syscall for user
 entry("hello");
+# Lab 2 syscalls
+entry("sched_tickets");

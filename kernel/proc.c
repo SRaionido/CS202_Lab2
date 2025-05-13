@@ -687,3 +687,13 @@ void print_hello(int n)
 {
   printf("Hello from the kernel space %d\n", n);
 }
+
+void sched_tickets(int tickets)
+{
+  struct proc *p = myproc();
+  if (tickets > 0 && tickets <= 10000) {
+    p->tickets = tickets;
+  } else {
+    printf("Invalid number of tickets\n");
+  }
+}

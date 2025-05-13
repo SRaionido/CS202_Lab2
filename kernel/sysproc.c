@@ -97,3 +97,11 @@ uint64 sys_hello(void)  //hello syscall definition
   print_hello(n);
   return 0;
 }
+
+uint64 sys_sched_tickets(void) //sched_tickets Lab 2
+{
+  int n;
+  argint(0, &n);
+  sched_tickets(n);
+  return 0;
+}
