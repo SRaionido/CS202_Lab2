@@ -497,7 +497,6 @@ scheduler(void)
     }
     #elif defined(STRIDE)
 
-    struct proc *p;
     struct proc *selected = 0; // Make 0 so that we can check if we have a selected process in the beginning
 
     // Find the process with the lowest pass value
