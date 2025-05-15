@@ -494,6 +494,29 @@ scheduler(void)
       }
       release(&p->lock);
     }
+    #elif defined(STRIDE)
+
+    struct proc *p;
+    struct proc *selected = 0; // Make 0 so that we can check if we have a selected process in the beginning
+
+    // Find the process with the lowest pass value
+    for(p = proc; p < &proc[NPROC]; p++){
+      acquire(&p->lock);
+      if(p->state == RUNNABLE){
+        if(selected == 0 || p->pass < selected->pass){
+          if(selected) {
+            release(&selected->lock);
+          }
+          selected = p;
+        } 
+        else {
+          release(&p->lock);
+        }
+      } 
+      else {
+        release(&p->lock);
+      }
+    }
 
     #else
 
