@@ -456,6 +456,7 @@ scheduler(void)
     intr_on();
 
     #if defined(LOTTERY)
+    // Find total number of tickets
     int total = 0;
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
@@ -465,13 +466,16 @@ scheduler(void)
       release(&p->lock);
     }
 
+    // If no process is runnable, continue
     if(total == 0) {
       continue;
     }
 
+    // Choose a random ticket
     int winner = rand() % total;
     int ticket_counter = 0;
 
+    // Find the winner and schedule it
     for(p = proc; p < &proc[NPROC]; p++){
       acquire(&p->lock);
       if(p->state == RUNNABLE){
