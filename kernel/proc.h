@@ -109,4 +109,5 @@ struct proc {
   int tickets;                // Number of tickets for the process
   int pass;
   int ticks;
+  int stride;
 };

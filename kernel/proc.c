@@ -125,8 +125,9 @@ found:
   p->pid = allocpid();
   p->state = USED;
   p->tickets = 10000; // default tickets Lab 2
-  // p->pass = 0;
+  p->pass = 0;
   p->ticks = 0;
+  p->stride = 10000/p->tickets; // default stride Lab 2
 
   // Allocate a trapframe page.
   if((p->trapframe = (struct trapframe *)kalloc()) == 0){
@@ -740,6 +741,7 @@ void sched_tickets(int tickets)
   struct proc *p = myproc();
   if (tickets > 0 && tickets <= 10000) {
     p->tickets = tickets;
+    p->stride = 10000 / tickets; // update stride
   } else {
     printf("Invalid number of tickets\n");
   }
