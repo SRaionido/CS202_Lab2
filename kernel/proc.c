@@ -480,7 +480,7 @@ scheduler(void)
           // Schedule this process
           p->state = RUNNING;
           c->proc = p;
-          p->scheduled_ticks++;  // Count how many times scheduled
+          p->ticks++;  // Count how many times scheduled
           swtch(&c->context, &p->context);
           c->proc = 0;
           release(&p->lock);
