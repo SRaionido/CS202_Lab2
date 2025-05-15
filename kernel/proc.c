@@ -456,6 +456,7 @@ scheduler(void)
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
 
+    // LAB 2
     #if defined(LOTTERY)
     // Find total number of tickets
     int total = 0;
@@ -500,9 +501,9 @@ scheduler(void)
     struct proc *selected = 0; // Make 0 so that we can check if we have a selected process in the beginning
 
     // Find the process with the lowest pass value
-    for(p = proc; p < &proc[NPROC]; p++){
+    for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
-      if(p->state == RUNNABLE){
+      if(p->state == RUNNABLE) {
         if(selected == 0 || p->pass < selected->pass){
           if(selected) {
             release(&selected->lock);
@@ -518,7 +519,20 @@ scheduler(void)
       }
     }
 
-    #else
+    // If we found a process to run, schedule it
+    if(selected) {
+      selected->state = RUNNING;
+      mycpu()->proc = selected;
+
+      selected->ticks++;
+      selected->pass += selected->stride;
+
+      swtch(&c->context, &selected->context);
+      mycpu()->proc = 0;
+      release(&selected->lock);
+    }
+
+    #else // OG SCHEDULER BEFORE LAB 2
 
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
