@@ -455,6 +455,43 @@ scheduler(void)
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
 
+    #if defined(LOTTERY)
+    int total = 0;
+    for(p = proc; p < &proc[NPROC]; p++) {
+      acquire(&p->lock);
+      if(p->state == RUNNABLE) {
+        total += p->tickets;
+      }
+      release(&p->lock);
+    }
+
+    if(total == 0) {
+      continue;
+    }
+
+    int winner = rand() % total;
+    int ticket_counter = 0;
+
+    for(p = proc; p < &proc[NPROC]; p++){
+      acquire(&p->lock);
+      if(p->state == RUNNABLE){
+        ticket_counter += p->tickets;
+        if(ticket_counter > winner){
+          // Schedule this process
+          p->state = RUNNING;
+          c->proc = p;
+          p->scheduled_ticks++;  // Count how many times scheduled
+          swtch(&c->context, &p->context);
+          c->proc = 0;
+          release(&p->lock);
+          break;
+        }
+      }
+      release(&p->lock);
+    }
+
+    #else
+
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
       if(p->state == RUNNABLE) {
@@ -472,6 +509,8 @@ scheduler(void)
       }
       release(&p->lock);
     }
+
+    #endif
   }
 }
 
